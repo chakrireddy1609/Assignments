@@ -19,14 +19,12 @@ for price in prices:
     strip_price = float(price.text.replace("$", ""))
     price_list.append(strip_price)
 price_list.sort(reverse=True)
-for i in range(1, 7):
+for i in range(1, len(prices)):
     check_item = driver.find_element(By.XPATH, "(//*[@class='inventory_item_price'])["+str(i)+"]")
     if str(price_list[0]) in check_item.text:
         driver.find_element(By.XPATH, "(//*[@class='pricebar']/button)["+str(i)+"]").click()
         break
-time.sleep(1)
 driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
-time.sleep(1)
 cart_price = driver.find_element(By.CLASS_NAME,"inventory_item_price").text.replace("$","")
 assert float(cart_price) == price_list[0]
 
